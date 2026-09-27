@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WA Catcher & Monitor Pro</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.12);
+            --danger-border: #f87171;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 30px 15px; min-height: 100vh; }
+        .app-container { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        
+        .card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-title { font-size: 1.15rem; font-weight: 700; color: var(--text-main); }
+
+        .status { padding: 6px 14px; border-radius: 30px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+        .status.connected { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status.disconnected { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .pairing-container { background: rgba(15, 23, 42, 0.6); border-radius: 12px; padding: 20px; border: 1px dashed var(--card-border); margin-top: 15px; }
+        .qr-wrapper { text-align: center; margin: 15px 0; }
+        #qrcode-canvas { background: white; padding: 12px; border-radius: 12px; }
+
+        .divider { display: flex; align-items: center; text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: 20px 0; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--card-border); }
+        .divider span { padding: 0 10px; }
+
+        .input-group { display: flex; gap: 10px; }
+        input[type="text"] {
+            flex: 1; padding: 12px 16px; background: #0f172a; border: 1px solid var(--card-border);
+            border-radius: 8px; color: var(--text-main); font-size: 0.9rem; outline: none;
+        }
+        button {
+            padding: 12px 20px; background: var(--primary); color: #022c22; font-weight: 600;
+            border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;
+        }
+        button:hover { background: var(--primary-hover); }
+        button.btn-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); width: 100%; margin-top: 15px; }
+
+        .code-display {
+            text-align: center; font-size: 2rem; font-weight: 800; letter-spacing: 6px;
+            color: #34d399; margin-top: 15px; background: #0f172a; padding: 15px;
+            border-radius: 8px; border: 1px solid var(--card-border); display: none;
+        }
+
+        .logs-container { display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto; }
+        .msg-card { background: #0f172a; border-radius: 10px; padding: 14px 16px; border-left: 4px solid var(--primary); }
+        .msg-card.deleted { border-left-color: var(--danger); background: var(--danger-bg); }
+        .msg-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .msg-sender { font-size: 0.88rem; font-weight: 600; color: #38bdf8; }
+        .msg-time { font-size: 0.75rem; color: var(--text-muted); }
+        .badge-deleted { display: inline-block; margin-top: 8px; font-size: 0.75rem; font-weight: 700; color: var(--danger-border); background: rgba(239, 68, 68, 0.2); padding: 3px 8px; border-radius: 4px; }
+        .empty-state { text-align: center; padding: 30px; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">⚡ WhatsApp Status</div>
+            <div id="status-badge" class="status disconnected">Disconnected</div>
+        </div>
+
+        <div id="pairing-section" class="pairing-container">
+            <div class="qr-wrapper">
+                <canvas id="qrcode-canvas"></canvas>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">Scan QR Code ini menggunakan WhatsApp di HP kamu</p>
+            </div>
+
+            <div class="divider"><span>ATAU PAIRING PAKAI NOMOR</span></div>
+
+            <div class="input-group">
+                <input type="text" id="phone-number" placeholder="Contoh: 628123456789">
+                <button onclick="requestPairingCode()">Minta Kode</button>
+            </div>
+
+            <div id="display-code" class="code-display"></div>
+        </div>
+
+        <button onclick="logoutWA()" class="btn-danger">Disconnect & Reset Session</button>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">💬 Pesan Terdeteksi (IndexedDB)</div>
+            <span style="font-size: 0.8rem; color: var(--text-muted);" id="msg-count">0 pesan</span>
+        </div>
+        <div id="logs" class="logs-container">
+            <div class="empty-state">Belum ada pesan terdeteksi...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const db = new Dexie("WACatcherDeploymentDB");
+    db.version(1).stores({ messages: 'id, sender, timestamp, isDeleted' });
+
+    const socket = io();
+
+    socket.on('status', (data) => {
+        const badge = document.getElementById('status-badge');
+        badge.innerText = data.message;
+        
+        if (data.status === 'connected') {
+            badge.className = 'status connected';
+            document.getElementById('pairing-section').style.display = 'none';
+        } else {
+            badge.className = 'status disconnected';
+            document.getElementById('pairing-section').style.display = 'block';
+        }
+    });
+
+    socket.on('qr_code', (data) => {
+        const canvas = document.getElementById('qrcode-canvas');
+        QRCode.toCanvas(canvas, data.qr, { width: 180, margin: 1 });
+    });
+
+    // Event saat tombol diklik (Memuat Kode)
+    socket.on('pairing_loading', (data) => {
+        const codeDiv = document.getElementById('display-code');
+        codeDiv.innerText = data.message;
+        codeDiv.style.display = 'block';
+    });
+
+    // Event saat Pairing Code berhasil didapat dari server
+    socket.on('pairing_code', (data) => {
+        const codeDiv = document.getElementById('display-code');
+        codeDiv.innerText = data.code;
+        codeDiv.style.display = 'block';
+    });
+
+    socket.on('pairing_error', (data) => {
+        alert(data.message);
+    });
+
+    socket.on('new_message', (msg) => {
+        db.messages.put(msg).then(() => renderLogs());
+    });
+
+    socket.on('message_deleted', (msg) => {
+        db.messages.put(msg).then(() => renderLogs());
+    });
+
+    function requestPairingCode() {
+        const phone = document.getElementById('phone-number').value;
+        if (!phone) return alert('Masukkan nomor WhatsApp beserta kode negara (Contoh: 628123456789)');
+        socket.emit('request_pairing_code', { phoneNumber: phone });
+    }
+
+    function logoutWA() {
+        if (confirm("Apakah kamu yakin ingin melepaskan sesi WhatsApp ini?")) {
+            socket.emit('logout');
+        }
+    }
+
+    async function renderLogs() {
+        const logsDiv = document.getElementById('logs');
+        const msgs = await db.messages.orderBy('timestamp').reverse().toArray();
+        
+        document.getElementById('msg-count').innerText = `${msgs.length} pesan`;
+
+        if (msgs.length === 0) {
+            logsDiv.innerHTML = '<div class="empty-state">Belum ada pesan yang masuk...</div>';
+            return;
+        }
+
+        logsDiv.innerHTML = '';
+        msgs.forEach(m => {
+            const div = document.createElement('div');
+            div.className = `msg-card ${m.isDeleted ? 'deleted' : ''}`;
+            const formattedTime = new Date(m.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            div.innerHTML = `
+                <div class="msg-header">
+                    <span class="msg-sender">${escapeHtml(m.pushName || 'Unknown')} <small style="color:var(--text-muted); font-weight:normal;">(${m.sender})</small></span>
+                    <span class="msg-time">${formattedTime}</span>
+                </div>
+                <div style="font-size:0.92rem;">${escapeHtml(m.text || '[Media/Lainnya]')}</div>
+                ${m.isDeleted ? '<div class="badge-deleted">⚠️ PESAN INI TELAH DIHAPUS</div>' : ''}
+            `;
+            logsDiv.appendChild(div);
+        });
+    }
+
+    function escapeHtml(str) {
+        return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    renderLogs();
+</script>
+</body>
+</html>
