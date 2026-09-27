@@ -2,6 +2,12 @@
 
 <img src="https://zfile.web.id/287vrMp.jpg" alt="Teks Alternatif" width="300" align="center">
 
+```diff
++ Teks ini akan berwarna hijau
+- Teks ini akan berwarna merah
+! Teks ini akan berwarna oranye/abu-abu (tergantung tema)
+# Teks ini akan berwarna abu-abu/biru
+```
 
 FX Project adalah aplikasi web untuk memantau pesan WhatsApp secara realtime menggunakan **Baileys**, **Node.js**, **Express**, dan **Socket.IO**.
 
