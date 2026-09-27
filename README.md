@@ -1,6 +1,7 @@
 # 📱 FX Project — WhatsApp Deleted Message Catcher
 
-https://zfile.web.id/287vrMp.jpg
+<img src="https://zfile.web.id/287vrMp.jpg" alt="Teks Alternatif" width="300" align="center">
+
 
 FX Project adalah aplikasi web untuk memantau pesan WhatsApp secara realtime menggunakan **Baileys**, **Node.js**, **Express**, dan **Socket.IO**.
 
