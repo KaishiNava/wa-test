@@ -1458,6 +1458,18 @@
             .stat {
                 padding: 10px;
             }
+
+
+            .monitor-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .monitor-bars {
+                grid-template-columns:
+                    1fr;
+            }
         }
 
         @media (max-width: 400px) {
@@ -1486,6 +1498,268 @@
             .account-avatar {
                 width: 44px;
                 height: 44px;
+            }
+
+
+            .monitor-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .monitor-item-value {
+                font-size: .78rem;
+            }
+        }
+
+        /* =========================================================
+           MEDIA MESSAGE + SERVER MONITOR
+        ========================================================= */
+
+        .msg-media {
+            margin-top: 11px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface-solid);
+        }
+
+        .msg-media img,
+        .msg-media video {
+            display: block;
+            width: 100%;
+            max-height: 420px;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .msg-media audio {
+            display: block;
+            width: 100%;
+        }
+
+        .msg-media.sticker img {
+            max-width: 260px;
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        .msg-media-document {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px;
+        }
+
+        .msg-media-document-icon {
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface-soft);
+        }
+
+        .msg-media-document-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .msg-media-document-name {
+            overflow: hidden;
+            color: var(--text);
+            font-size: .72rem;
+            font-weight: 800;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .msg-media-document-meta {
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: .6rem;
+        }
+
+        .msg-media-loading,
+        .msg-media-error {
+            padding: 13px;
+            color: var(--text-muted);
+            font-size: .66rem;
+            line-height: 1.5;
+        }
+
+        .msg-media-loading {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .msg-media-loading-dot {
+            width: 7px;
+            height: 7px;
+            flex: 0 0 7px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: mediaPulse 1s ease-in-out infinite;
+        }
+
+        .msg-media-error {
+            color: var(--danger);
+        }
+
+        .msg-media-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 9px;
+            padding: 8px 10px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            color: var(--text);
+            background: var(--surface-soft);
+            font-size: .62rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .msg-media-link:hover {
+            background: var(--surface-solid);
+        }
+
+        .monitor-card {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .monitor-item {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface-soft);
+        }
+
+        .monitor-item-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: .57rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+        }
+
+        .monitor-item-value {
+            display: block;
+            overflow: hidden;
+            margin-top: 5px;
+            color: var(--text);
+            font-size: .86rem;
+            font-weight: 800;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .monitor-item-sub {
+            display: block;
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: .56rem;
+        }
+
+        .monitor-bars {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .monitor-bar-box {
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface-soft);
+        }
+
+        .monitor-bar-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .monitor-bar-title {
+            color: var(--text-secondary);
+            font-size: .63rem;
+            font-weight: 800;
+        }
+
+        .monitor-bar-value {
+            color: var(--text);
+            font-size: .62rem;
+            font-weight: 800;
+        }
+
+        .monitor-bar {
+            height: 7px;
+            overflow: hidden;
+            border-radius: 99px;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
+        }
+
+        .monitor-bar > span {
+            display: block;
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--accent);
+            transition: width .45s ease;
+        }
+
+        .monitor-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: .59rem;
+        }
+
+        .monitor-online {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .monitor-online-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .monitor-online.offline .monitor-online-dot {
+            background: var(--danger);
+        }
+
+        @keyframes mediaPulse {
+            0%, 100% {
+                opacity: .35;
+                transform: scale(.85);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
@@ -1901,6 +2175,158 @@
 
     </section>
 
+
+    <!-- =========================================================
+         SERVER MONITOR
+    ========================================================== -->
+
+    <section class="card monitor-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-title">
+                    Server Monitor
+                </div>
+
+                <div class="section-description">
+                    Statistik server real-time dari backend K-Frame
+                </div>
+
+            </div>
+
+            <div
+                id="monitor-online"
+                class="monitor-online"
+            >
+                <span class="monitor-online-dot"></span>
+
+                <span id="monitor-connection-text">
+                    Menunggu data...
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="monitor-grid">
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">RAM</span>
+                <span class="monitor-item-value" id="monitor-ram">—</span>
+                <span class="monitor-item-sub" id="monitor-ram-sub">—</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">CPU</span>
+                <span class="monitor-item-value" id="monitor-cpu">—</span>
+                <span class="monitor-item-sub" id="monitor-cpu-sub">—</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">Disk</span>
+                <span class="monitor-item-value" id="monitor-disk">—</span>
+                <span class="monitor-item-sub" id="monitor-disk-sub">—</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">Ping</span>
+                <span class="monitor-item-value" id="monitor-ping">—</span>
+                <span class="monitor-item-sub" id="monitor-ping-sub">Browser ↔ Server</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">Uptime</span>
+                <span class="monitor-item-value" id="monitor-uptime">—</span>
+                <span class="monitor-item-sub">Server</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">Messages</span>
+                <span class="monitor-item-value" id="monitor-messages">—</span>
+                <span class="monitor-item-sub">Cache backend</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">Media</span>
+                <span class="monitor-item-value" id="monitor-media">—</span>
+                <span class="monitor-item-sub">File tersimpan</span>
+            </div>
+
+            <div class="monitor-item">
+                <span class="monitor-item-label">Runtime</span>
+                <span class="monitor-item-value" id="monitor-node">—</span>
+                <span class="monitor-item-sub" id="monitor-platform">—</span>
+            </div>
+
+        </div>
+
+
+        <div class="monitor-bars">
+
+            <div class="monitor-bar-box">
+                <div class="monitor-bar-head">
+                    <span class="monitor-bar-title">System RAM</span>
+                    <span class="monitor-bar-value" id="monitor-ram-percent">0%</span>
+                </div>
+
+                <div class="monitor-bar">
+                    <span id="monitor-ram-bar"></span>
+                </div>
+            </div>
+
+            <div class="monitor-bar-box">
+                <div class="monitor-bar-head">
+                    <span class="monitor-bar-title">CPU Usage</span>
+                    <span class="monitor-bar-value" id="monitor-cpu-percent">0%</span>
+                </div>
+
+                <div class="monitor-bar">
+                    <span id="monitor-cpu-bar"></span>
+                </div>
+            </div>
+
+            <div class="monitor-bar-box">
+                <div class="monitor-bar-head">
+                    <span class="monitor-bar-title">Disk Usage</span>
+                    <span class="monitor-bar-value" id="monitor-disk-percent">0%</span>
+                </div>
+
+                <div class="monitor-bar">
+                    <span id="monitor-disk-bar"></span>
+                </div>
+            </div>
+
+            <div class="monitor-bar-box">
+                <div class="monitor-bar-head">
+                    <span class="monitor-bar-title">Heap Node.js</span>
+                    <span class="monitor-bar-value" id="monitor-heap-percent">0%</span>
+                </div>
+
+                <div class="monitor-bar">
+                    <span id="monitor-heap-bar"></span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="monitor-footer">
+
+            <span id="monitor-updated">
+                Menunggu statistik server...
+            </span>
+
+            <span>
+                Refresh statistik ±3 detik
+            </span>
+
+        </div>
+
+    </section>
+
+
 </div>
 
 
@@ -1972,6 +2398,417 @@
 
     const $ = id =>
         document.getElementById(id);
+
+
+    /* =========================================================
+       MONITOR FORMATTERS
+    ========================================================= */
+
+    function formatBytes(bytes) {
+
+        const value =
+            Number(bytes);
+
+        if (
+            !Number.isFinite(value) ||
+            value < 0
+        ) {
+            return "—";
+        }
+
+        if (value < 1024) {
+            return `${value} B`;
+        }
+
+        const units = [
+            "KB",
+            "MB",
+            "GB",
+            "TB"
+        ];
+
+        let size =
+            value / 1024;
+
+        let unit =
+            units[0];
+
+        for (
+            let index = 0;
+            index < units.length - 1 &&
+            size >= 1024;
+            index++
+        ) {
+
+            size /= 1024;
+
+            unit =
+                units[index + 1];
+
+        }
+
+        return `${size.toFixed(
+            size >= 100
+                ? 0
+                : size >= 10
+                    ? 1
+                    : 2
+        )} ${unit}`;
+
+    }
+
+
+    function formatDuration(
+        seconds
+    ) {
+
+        const total =
+            Math.max(
+                0,
+                Math.floor(
+                    Number(seconds) || 0
+                )
+            );
+
+        const days =
+            Math.floor(
+                total / 86400
+            );
+
+        const hours =
+            Math.floor(
+                (total % 86400) / 3600
+            );
+
+        const minutes =
+            Math.floor(
+                (total % 3600) / 60
+            );
+
+        const secs =
+            total % 60;
+
+        const parts = [];
+
+        if (days) {
+            parts.push(`${days}d`);
+        }
+
+        if (
+            hours ||
+            days
+        ) {
+            parts.push(`${hours}h`);
+        }
+
+        if (
+            minutes ||
+            hours ||
+            days
+        ) {
+            parts.push(`${minutes}m`);
+        }
+
+        parts.push(`${secs}s`);
+
+        return parts.join(" ");
+
+    }
+
+
+    function setMonitorBar(
+        id,
+        value
+    ) {
+
+        const element =
+            $(id);
+
+        if (!element) {
+            return;
+        }
+
+        const percent =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    Number(value) || 0
+                )
+            );
+
+        element.style.width =
+            `${percent}%`;
+
+    }
+
+
+    function renderMonitorConnection(
+        online
+    ) {
+
+        const badge =
+            $("monitor-online");
+
+        const label =
+            $("monitor-connection-text");
+
+        if (
+            !badge ||
+            !label
+        ) {
+            return;
+        }
+
+        badge.classList.toggle(
+            "offline",
+            !online
+        );
+
+        label.textContent =
+            online
+                ? "Server monitor online"
+                : "Server monitor offline";
+
+    }
+
+
+    function renderServerStats(
+        data
+    ) {
+
+        if (!data) {
+            return;
+        }
+
+        const memory =
+            data.memory || {};
+
+        const cpu =
+            data.cpu || {};
+
+        const messages =
+            data.messages || {};
+
+        const ramPercent =
+            Number(
+                memory.percent
+            ) || 0;
+
+        const cpuPercent =
+            Number(
+                cpu.percent
+            ) || 0;
+
+        const heapTotal =
+            Number(
+                memory.heapTotal
+            ) || 0;
+
+        const heapUsed =
+            Number(
+                memory.heapUsed
+            ) || 0;
+
+        const heapPercent =
+            heapTotal > 0
+                ? (
+                    heapUsed /
+                    heapTotal
+                ) * 100
+                : 0;
+
+        $("monitor-ram")
+            .textContent =
+                `${formatBytes(
+                    memory.systemUsed
+                )} / ${formatBytes(
+                    memory.systemTotal
+                )}`;
+
+        $("monitor-ram-sub")
+            .textContent =
+                `${ramPercent.toFixed(1)}% system used`;
+
+        $("monitor-cpu")
+            .textContent =
+                `${cpuPercent.toFixed(1)}%`;
+
+        $("monitor-cpu-sub")
+            .textContent =
+                `${cpu.cores || "—"} core · load ${cpu.load1 ?? "—"}`;
+
+        $("monitor-disk-sub")
+            .textContent =
+                $("monitor-disk-sub").textContent ||
+                "Menunggu data disk...";
+
+        $("monitor-messages")
+            .textContent =
+                Number(
+                    messages.cached || 0
+                ).toLocaleString(
+                    "id-ID"
+                );
+
+        $("monitor-media")
+            .textContent =
+                Number(
+                    messages.mediaFiles || 0
+                ).toLocaleString(
+                    "id-ID"
+                );
+
+        $("monitor-uptime")
+            .textContent =
+                formatDuration(
+                    data.uptime
+                );
+
+        $("monitor-node")
+            .textContent =
+                data.nodeVersion || "—";
+
+        $("monitor-platform")
+            .textContent =
+                `${data.platform || "—"} · ${data.arch || "—"}`;
+
+        $("monitor-ram-percent")
+            .textContent =
+                `${ramPercent.toFixed(1)}%`;
+
+        $("monitor-cpu-percent")
+            .textContent =
+                `${cpuPercent.toFixed(1)}%`;
+
+        $("monitor-heap-percent")
+            .textContent =
+                `${Math.min(
+                    100,
+                    heapPercent
+                ).toFixed(1)}%`;
+
+        setMonitorBar(
+            "monitor-ram-bar",
+            ramPercent
+        );
+
+        setMonitorBar(
+            "monitor-cpu-bar",
+            cpuPercent
+        );
+
+        setMonitorBar(
+            "monitor-heap-bar",
+            heapPercent
+        );
+
+        if (data.updatedAt) {
+
+            $("monitor-updated")
+                .textContent =
+                `Update terakhir: ${formatDateTime(
+                    data.updatedAt
+                )}`;
+
+        }
+
+        renderMonitorConnection(
+            true
+        );
+
+    }
+
+
+    function renderDiskStats(
+        data
+    ) {
+
+        if (!data) {
+            return;
+        }
+
+        const percent =
+            Number(
+                data.percent
+            ) || 0;
+
+        $("monitor-disk")
+            .textContent =
+                `${formatBytes(
+                    data.used
+                )} / ${formatBytes(
+                    data.total
+                )}`;
+
+        $("monitor-disk-sub")
+            .textContent =
+                `${percent.toFixed(1)}% used · ${formatBytes(
+                    data.available
+                )} free`;
+
+        $("monitor-disk-percent")
+            .textContent =
+                `${percent.toFixed(1)}%`;
+
+        setMonitorBar(
+            "monitor-disk-bar",
+            percent
+        );
+
+        if (data.updatedAt) {
+
+            $("monitor-updated")
+                .textContent =
+                `Update terakhir: ${formatDateTime(
+                    data.updatedAt
+                )}`;
+
+        }
+
+    }
+
+
+    let monitorPingStarted =
+        false;
+
+
+    function startMonitorPing() {
+
+        if (monitorPingStarted) {
+            return;
+        }
+
+        monitorPingStarted =
+            true;
+
+        const sendPing = () => {
+
+            if (!socket.connected) {
+
+                renderMonitorConnection(
+                    false
+                );
+
+                return;
+
+            }
+
+            socket.emit(
+                "monitor_ping",
+                performance.now()
+            );
+
+        };
+
+        sendPing();
+
+        setInterval(
+            sendPing,
+            5000
+        );
+
+    }
 
 
     /* =========================================================
@@ -2524,6 +3361,88 @@
 
             await restoreSession();
 
+            renderMonitorConnection(
+                true
+            );
+
+            startMonitorPing();
+
+        }
+    );
+
+
+    socket.on(
+        "disconnect",
+        () => {
+
+            renderMonitorConnection(
+                false
+            );
+
+        }
+    );
+
+
+    socket.on(
+        "server_stats",
+        data => {
+
+            renderServerStats(
+                data
+            );
+
+        }
+    );
+
+
+    socket.on(
+        "disk_stats",
+        data => {
+
+            renderDiskStats(
+                data
+            );
+
+        }
+    );
+
+
+    socket.on(
+        "monitor_pong",
+        started => {
+
+            const startedAt =
+                Number(
+                    started
+                );
+
+            if (
+                !Number.isFinite(
+                    startedAt
+                )
+            ) {
+                return;
+            }
+
+            const ping =
+                Math.max(
+                    0,
+                    Math.round(
+                        performance.now() -
+                        startedAt
+                    )
+                );
+
+            $("monitor-ping")
+                .textContent =
+                `${ping} ms`;
+
+            $("monitor-ping-sub")
+                .textContent =
+                socket.connected
+                    ? "Browser ↔ Server"
+                    : "Socket offline";
+
         }
     );
 
@@ -2784,6 +3703,43 @@
 
 
     /* =========================================================
+       MESSAGE MEDIA READY
+    ========================================================= */
+
+    socket.on(
+        "message_media_ready",
+        async data => {
+
+            if (
+                !data ||
+                !data.id
+            ) {
+                return;
+            }
+
+            const existing =
+                await db.messages.get(
+                    data.id
+                );
+
+            if (!existing) {
+                return;
+            }
+
+            existing.media =
+                data.media || null;
+
+            await db.messages.put(
+                existing
+            );
+
+            await renderLogs();
+
+        }
+    );
+
+
+    /* =========================================================
        MESSAGE DELETED
     ========================================================= */
 
@@ -2990,6 +3946,329 @@
             "success"
 
         );
+
+    }
+
+
+    /* =========================================================
+       MEDIA RENDERING
+    ========================================================= */
+
+    function renderMessageMedia(
+        message
+    ) {
+
+        if (
+            !message ||
+            !message.media
+        ) {
+            return null;
+        }
+
+        const media =
+            message.media;
+
+        const wrapper =
+            document.createElement(
+                "div"
+            );
+
+        wrapper.className =
+            "msg-media";
+
+        const type =
+            String(
+                media.type ||
+                message.type ||
+                ""
+            ).toLowerCase();
+
+        const url =
+            media.url;
+
+        if (!url) {
+
+            const loading =
+                document.createElement(
+                    "div"
+                );
+
+            loading.className =
+                "msg-media-loading";
+
+            loading.innerHTML = `
+                <span class="msg-media-loading-dot"></span>
+                <span>Media sedang diproses atau belum tersedia.</span>
+            `;
+
+            wrapper.appendChild(
+                loading
+            );
+
+            return wrapper;
+
+        }
+
+
+        if (
+            type === "image" ||
+            type === "sticker"
+        ) {
+
+            if (
+                type === "sticker"
+            ) {
+
+                wrapper.classList.add(
+                    "sticker"
+                );
+
+            }
+
+            const image =
+                document.createElement(
+                    "img"
+                );
+
+            image.src =
+                url;
+
+            image.alt =
+                media.fileName ||
+                (
+                    type === "sticker"
+                        ? "Sticker WhatsApp"
+                        : "Gambar WhatsApp"
+                );
+
+            image.loading =
+                "lazy";
+
+            image.referrerPolicy =
+                "no-referrer";
+
+            image.onerror =
+                () => {
+
+                    wrapper.innerHTML =
+                        "";
+
+                    const error =
+                        document.createElement(
+                            "div"
+                        );
+
+                    error.className =
+                        "msg-media-error";
+
+                    error.textContent =
+                        "Media tidak dapat dimuat dari server.";
+
+                    wrapper.appendChild(
+                        error
+                    );
+
+                };
+
+            wrapper.appendChild(
+                image
+            );
+
+            return wrapper;
+
+        }
+
+
+        if (
+            type === "video"
+        ) {
+
+            const video =
+                document.createElement(
+                    "video"
+                );
+
+            video.src =
+                url;
+
+            video.controls =
+                true;
+
+            video.preload =
+                "metadata";
+
+            video.playsInline =
+                true;
+
+            wrapper.appendChild(
+                video
+            );
+
+            return wrapper;
+
+        }
+
+
+        if (
+            type === "audio"
+        ) {
+
+            const audio =
+                document.createElement(
+                    "audio"
+                );
+
+            audio.src =
+                url;
+
+            audio.controls =
+                true;
+
+            audio.preload =
+                "metadata";
+
+            wrapper.appendChild(
+                audio
+            );
+
+            return wrapper;
+
+        }
+
+
+        if (
+            type === "document"
+        ) {
+
+            const box =
+                document.createElement(
+                    "div"
+                );
+
+            box.className =
+                "msg-media-document";
+
+            const icon =
+                document.createElement(
+                    "div"
+                );
+
+            icon.className =
+                "msg-media-document-icon";
+
+            icon.innerHTML = `
+                <svg viewBox="0 0 24 24">
+                    <path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+                    <path d="M14 3v5h5"></path>
+                </svg>
+            `;
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+            info.className =
+                "msg-media-document-info";
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+            name.className =
+                "msg-media-document-name";
+
+            name.textContent =
+                media.fileName ||
+                "Dokumen WhatsApp";
+
+            const meta =
+                document.createElement(
+                    "div"
+                );
+
+            meta.className =
+                "msg-media-document-meta";
+
+            meta.textContent =
+                media.mimetype ||
+                "Dokumen";
+
+            info.appendChild(
+                name
+            );
+
+            info.appendChild(
+                meta
+            );
+
+            box.appendChild(
+                icon
+            );
+
+            box.appendChild(
+                info
+            );
+
+            wrapper.appendChild(
+                box
+            );
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+            link.className =
+                "msg-media-link";
+
+            link.href =
+                url;
+
+            link.target =
+                "_blank";
+
+            link.rel =
+                "noopener noreferrer";
+
+            link.textContent =
+                "Buka dokumen";
+
+            wrapper.appendChild(
+                link
+            );
+
+            return wrapper;
+
+        }
+
+
+        const fallback =
+            document.createElement(
+                "a"
+            );
+
+        fallback.className =
+            "msg-media-link";
+
+        fallback.href =
+            url;
+
+        fallback.target =
+            "_blank";
+
+        fallback.rel =
+            "noopener noreferrer";
+
+        fallback.textContent =
+            "Buka media";
+
+        wrapper.appendChild(
+            fallback
+        );
+
+        return wrapper;
 
     }
 
@@ -3227,7 +4506,11 @@
 
                 text.textContent =
                     message.text ||
-                    "[Media / Lainnya]";
+                    (
+                        message.media
+                            ? ""
+                            : "[Media / Lainnya]"
+                    );
 
 
                 card.appendChild(
@@ -3238,6 +4521,26 @@
                 card.appendChild(
                     text
                 );
+
+
+                /* =====================
+                   MEDIA
+                ===================== */
+
+                const mediaElement =
+                    renderMessageMedia(
+                        message
+                    );
+
+                if (
+                    mediaElement
+                ) {
+
+                    card.appendChild(
+                        mediaElement
+                    );
+
+                }
 
 
                 /* =====================
